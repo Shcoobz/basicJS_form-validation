@@ -1,51 +1,82 @@
+/**
+ * Initializes form validation handlers and UI updates for a registration form.
+ * Utilizes various DOM elements to manage user input and feedback.
+ */
 const form = document.getElementById('form');
 const password1El = document.getElementById('password1');
 const password2El = document.getElementById('password2');
 const messageContainer = document.querySelector('.message-container');
 const message = document.getElementById('message');
 
-let isValid = false;
-let passwordsMatch = false;
+/**
+ * Sets the message in the form's message container.
+ *
+ * @param {string} text - The message text to display.
+ * @param {string} color - The color to use for the message text and container border.
+ */
+function setMessage(text, color) {
+  message.textContent = text;
+  message.style.color = color;
+  messageContainer.style.borderColor = color;
+}
 
-function validateForm() {
-  // Using Constraint API
+/**
+ * Sets the border color of a given form field.
+ *
+ * @param {HTMLElement} field - The form field whose border color will be set.
+ * @param {string} color - The color to apply to the field's border.
+ */
+function setFieldBorderColor(field, color) {
+  field.style.borderColor = color;
+}
 
-  isValid = form.checkValidity();
+/**
+ * Checks if the two password fields match.
+ *
+ * @returns {boolean} True if the passwords match, false otherwise.
+ */
+function passwordsMatch() {
+  return password1El.value === password2El.value;
+}
 
-  // Style main message for an error
-  if (!isValid) {
-    message.textContent = 'Please fill out all fields.';
-    message.style.color = 'red';
-    messageContainer.style.borderColor = 'red';
-
-    return;
-  }
-
-  // Check to see if pw match
-  if (password1El.value === password2El.value) {
-    passwordsMatch = true;
-    password1El.style.borderColor = 'green';
-    password2El.style.borderColor = 'green';
+/**
+ * Validates that the two entered passwords match and updates UI accordingly.
+ *
+ * @returns {boolean} True if the passwords match and the UI has been updated, false otherwise.
+ */
+function validatePasswords() {
+  if (passwordsMatch()) {
+    setFieldBorderColor(password1El, 'green');
+    setFieldBorderColor(password2El, 'green');
+    return true;
   } else {
-    passwordsMatch = false;
-    message.textContent = 'Make sure passwords match.';
-    message.style.color = 'red';
-    messageContainer.style.borderColor = 'red';
-
-    password1El.style.borderColor = 'red';
-    password2El.style.borderColor = 'red';
-
-    return;
-  }
-
-  // If form is valid && passwords match
-  if (isValid && passwordsMatch) {
-    message.textContent = 'Successfully Registered!';
-    message.style.color = 'green';
-    messageContainer.style.borderColor = 'green';
+    setFieldBorderColor(password1El, 'red');
+    setFieldBorderColor(password2El, 'red');
+    setMessage('Make sure passwords match.', 'red');
+    return false;
   }
 }
 
+/**
+ * Validates the entire form for completeness and correctness.
+ * Leverages the Constraint Validation API and custom validations.
+ *
+ * @returns {boolean} True if the form is valid, false otherwise.
+ */
+function validateForm() {
+  // Using Constraint API to check form validity
+  if (!form.checkValidity()) {
+    setMessage('Please fill out all fields.', 'red');
+    return false;
+  }
+
+  return validatePasswords();
+}
+
+/**
+ * Stores the form data by logging it to the console.
+ * Placeholder for actual storage logic.
+ */
 function storeFormData() {
   const user = {
     name: form.name.value,
@@ -54,22 +85,23 @@ function storeFormData() {
     website: form.website.value,
     password: form.password.value,
   };
-
-  // Do something with user data
-  console.log(user);
+  console.log(user); // Placeholder for actual storage logic
 }
 
+/**
+ * Handles the form submission event.
+ * Validates the form data, stores it if valid, and updates the UI.
+ *
+ * @param {Event} e - The submit event object.
+ */
 function processFormData(e) {
   e.preventDefault();
 
-  // Validate Form
-  validateForm();
-  // Submit Data if Valid
-
-  if (isValid && passwordsMatch) {
+  if (validateForm()) {
     storeFormData();
+    setMessage('Successfully Registered!', 'green');
   }
 }
 
-// Event Listener
+// Attaches the submit event listener to the form.
 form.addEventListener('submit', processFormData);
