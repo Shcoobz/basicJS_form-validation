@@ -4,7 +4,7 @@
 
 ## Summary
 
-Welcome to Form Validation! This application provides a sleek and user-friendly interface for users to sign up with their details. It features comprehensive input validation to ensure that all user-submitted data meets specific criteria before being processed.
+Form Validation provides a sleek and user-friendly interface for users to sign up with their details. It features comprehensive input validation to ensure that all user-submitted data meets specific criteria before being processed.
 
 The core functionality includes:
 
