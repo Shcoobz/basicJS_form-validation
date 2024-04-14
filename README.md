@@ -1,6 +1,6 @@
-# Form Validation -> [LIVE DEMO](https://shcoobz.github.io/form-validation/)
+# basicJS_Form Validation -> [LIVE DEMO](https://shcoobz.github.io/basicJS_form-validation/)
 
-![Project Image](img/form-validation.png)
+![Project Image](img/basicJS_form-validation.png)
 
 ## Summary
 
